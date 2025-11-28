@@ -1,5 +1,6 @@
 0.95 (2025-09-15)
 -----------------
+- Fix: Enhanced ATSC EIT/VCT parsing with corrected bounds checks, improved event mapping, added support for extended EIT table IDs (0xCD–0xD0), and reliable XMLTV generation.
 - Fix: ARM64/aarch64 build failure due to c_char type mismatch in nal.rs
 - Fix: HardSubX OCR on Rust
 - Removed the Share Module
