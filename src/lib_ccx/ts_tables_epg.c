@@ -837,7 +837,7 @@ void EPG_ATSC_decode_multiple_string(uint8_t *offset, uint32_t length, struct EP
 	int i, j;
 	char ISO_639_language_code[4];
 	uint8_t *offset_end = offset + length;
-#define CHECK_OFFSET(val)              \
+#define CHECK_OFFSET(val)            \
 	if (offset + (val) > offset_end) \
 	return
 
