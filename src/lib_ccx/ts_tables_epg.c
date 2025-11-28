@@ -412,51 +412,51 @@ void EPG_output(struct lib_ccx_ctx *ctx)
 		fprintf(f, "</display-name>\n");
 		fprintf(f, "  </channel>\n");
 	}
-if (ccx_options.xmltvonlycurrent == 0)
-{ // print all events
-    // Print events from mapped programs
-    for (i = 0; i < ctx->demux_ctx->nb_program; i++)
-    {
-        for (j = 0; j < ctx->eit_programs[i].array_len; j++)
-            EPG_print_event(&ctx->eit_programs[i].epg_events[j], ctx->demux_ctx->pinfo[i].program_number, f);
-    }
+	if (ccx_options.xmltvonlycurrent == 0)
+	{ // print all events
+		// Print events from mapped programs
+		for (i = 0; i < ctx->demux_ctx->nb_program; i++)
+		{
+			for (j = 0; j < ctx->eit_programs[i].array_len; j++)
+				EPG_print_event(&ctx->eit_programs[i].epg_events[j], ctx->demux_ctx->pinfo[i].program_number, f);
+		}
 
-    // CRITICAL FIX: Always check fallback storage, not just when nb_program==0
-    // This fixes ATSC streams where VCT creates programs but EIT events
-    // end up in fallback storage due to source_id mapping issues
-    if (ctx->eit_programs[TS_PMT_MAP_SIZE].array_len > 0)
-    {
-        for (j = 0; j < ctx->eit_programs[TS_PMT_MAP_SIZE].array_len; j++)
-        {
-            EPG_print_event(&ctx->eit_programs[TS_PMT_MAP_SIZE].epg_events[j], 
-                           ctx->eit_programs[TS_PMT_MAP_SIZE].epg_events[j].service_id, f);
-        }
-    }
-}
-else
-{ // print current events only
-    for (i = 0; i < ctx->demux_ctx->nb_program; i++)
-    {
-        ce = ctx->eit_current_events[i];
-        for (j = 0; j < ctx->eit_programs[i].array_len; j++)
-        {
-            if (ce == ctx->eit_programs[i].epg_events[j].id)
-                EPG_print_event(&ctx->eit_programs[i].epg_events[j], ctx->demux_ctx->pinfo[i].program_number, f);
-        }
-    }
-    
-    // CRITICAL FIX: Also check fallback for current events
-    if (ctx->eit_programs[TS_PMT_MAP_SIZE].array_len > 0)
-    {
-        ce = ctx->eit_current_events[TS_PMT_MAP_SIZE];
-        for (j = 0; j < ctx->eit_programs[TS_PMT_MAP_SIZE].array_len; j++)
-        {
-            if (ce == ctx->eit_programs[TS_PMT_MAP_SIZE].epg_events[j].id)
-                EPG_print_event(&ctx->eit_programs[TS_PMT_MAP_SIZE].epg_events[j],
-                               ctx->eit_programs[TS_PMT_MAP_SIZE].epg_events[j].service_id, f);
-        }
-    }
-}
+		// CRITICAL FIX: Always check fallback storage, not just when nb_program==0
+		// This fixes ATSC streams where VCT creates programs but EIT events
+		// end up in fallback storage due to source_id mapping issues
+		if (ctx->eit_programs[TS_PMT_MAP_SIZE].array_len > 0)
+		{
+			for (j = 0; j < ctx->eit_programs[TS_PMT_MAP_SIZE].array_len; j++)
+			{
+				EPG_print_event(&ctx->eit_programs[TS_PMT_MAP_SIZE].epg_events[j],
+						ctx->eit_programs[TS_PMT_MAP_SIZE].epg_events[j].service_id, f);
+			}
+		}
+	}
+	else
+	{ // print current events only
+		for (i = 0; i < ctx->demux_ctx->nb_program; i++)
+		{
+			ce = ctx->eit_current_events[i];
+			for (j = 0; j < ctx->eit_programs[i].array_len; j++)
+			{
+				if (ce == ctx->eit_programs[i].epg_events[j].id)
+					EPG_print_event(&ctx->eit_programs[i].epg_events[j], ctx->demux_ctx->pinfo[i].program_number, f);
+			}
+		}
+
+		// CRITICAL FIX: Also check fallback for current events
+		if (ctx->eit_programs[TS_PMT_MAP_SIZE].array_len > 0)
+		{
+			ce = ctx->eit_current_events[TS_PMT_MAP_SIZE];
+			for (j = 0; j < ctx->eit_programs[TS_PMT_MAP_SIZE].array_len; j++)
+			{
+				if (ce == ctx->eit_programs[TS_PMT_MAP_SIZE].epg_events[j].id)
+					EPG_print_event(&ctx->eit_programs[TS_PMT_MAP_SIZE].epg_events[j],
+							ctx->eit_programs[TS_PMT_MAP_SIZE].epg_events[j].service_id, f);
+			}
+		}
+	}
 	fprintf(f, "</tv>");
 	fclose(f);
 }
@@ -837,7 +837,7 @@ void EPG_ATSC_decode_multiple_string(uint8_t *offset, uint32_t length, struct EP
 	int i, j;
 	char ISO_639_language_code[4];
 	uint8_t *offset_end = offset + length;
-#define CHECK_OFFSET(val)            \
+#define CHECK_OFFSET(val)                \
 	if (offset + (val) > offset_end) \
 	return
 
@@ -924,7 +924,7 @@ void EPG_ATSC_decode_EIT(struct lib_ccx_ctx *ctx, uint8_t *payload_start, uint32
 
 	num_events_in_section = payload_start[9];
 
-#define CHECK_OFFSET(val)                          \
+#define CHECK_OFFSET(val)                            \
 	if (offset + (val) > (payload_start + size)) \
 	return
 	offset = &payload_start[10];
@@ -1173,8 +1173,6 @@ void EPG_parse_table(struct lib_ccx_ctx *ctx, uint8_t *b, uint32_t size)
 
 	EPG_handle_output(ctx);
 }
-
-
 
 // reconstructs DVB EIT and ATSC tables
 void parse_EPG_packet(struct lib_ccx_ctx *ctx)
