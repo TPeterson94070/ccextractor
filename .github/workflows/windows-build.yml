@@ -5,6 +5,7 @@ on:
     branches: [ pr1773 ]
   pull_request:
     branches: [ pr1773 ]
+  workflow_dispatch:
 
 jobs:
   build-windows:
