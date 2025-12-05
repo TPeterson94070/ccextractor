@@ -51,12 +51,12 @@ jobs:
     - name: run autogen
       run: ./autogen.sh
       working-directory: ./linux
-#    - name: configure
-#      run: ./configure --enable-debug
-#      working-directory: ./linux
-#    - name: make
- #     run: make
-  #    working-directory: ./linux
+    - name: configure
+      run: ./configure # --enable-debug
+      working-directory: ./linux
+    - name: make
+      run: make
+      working-directory: ./linux
     - name: Display version information
       run: ./ccextractor --version
       working-directory: ./linux
