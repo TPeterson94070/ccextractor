@@ -52,7 +52,7 @@ jobs:
       run: ./autogen.sh
       working-directory: ./linux
     - name: configure
-      run: ./configure # --enable-debug
+      run: ./configure --enable-debug
       working-directory: ./linux
     - name: make
       run: make
